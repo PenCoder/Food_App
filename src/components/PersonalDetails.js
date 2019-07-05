@@ -6,6 +6,8 @@ import { Icon } from 'react-native-elements';
 
 import defaultStyles from '../styles/DefaultStyles';
 
+import {Personal} from '../models/Models';
+
 export default class PersonalDetails extends Component{
     constructor(props){
         super(props)
@@ -15,9 +17,12 @@ export default class PersonalDetails extends Component{
             identification: null,
             nextAge: 0
         }
+
+        this.personal = new Personal();
     }
     // Get the next birthday of client
     setNextBirthDay = (dob) => {
+        this.personal.dob = dob;
         var nextDate = new Date();
         if (nextDate.getMonth() > dob.getMonth()){
             nextDate.setMonth(dob.getMonth());
@@ -43,6 +48,7 @@ export default class PersonalDetails extends Component{
         })
     }
     render(){
+        const {person} = this.state;
         return (
             <Card style={defaultStyles.fullScreen}>
                 <KeyboardAvoidingView
@@ -62,13 +68,13 @@ export default class PersonalDetails extends Component{
                                     <Item floatingLabel style={{flex: 0.5}}>
                                         <Label>Surname</Label>
                                         <Input
-                                            // style={defaultStyles.inputContainer}
+                                            onChangeText={text = this.personal.name.surname}
                                         />
                                     </Item>
                                     <Item floatingLabel style={{flex: 0.5}}>
                                         <Label>First Name</Label>
                                         <Input
-                                            // style={defaultStyles.inputContainer}
+                                            onChangeText={text = this.personal.name.firstname}
                                         />
                                     </Item>
                                 </CardItem>
@@ -105,7 +111,10 @@ export default class PersonalDetails extends Component{
                                         <RadioButton
                                             value='Male'
                                             status={this.state.gender === 1 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({gender: 1})}}
+                                            onPress={(value) => {
+                                                this.setState({gender: 1})
+                                                this.personal.gender = value
+                                            }}
                                         />
                                         <Text note>Male</Text>
                                     </ListItem>
@@ -113,7 +122,10 @@ export default class PersonalDetails extends Component{
                                         <RadioButton
                                             value='Female'
                                             status={this.state.gender === 2 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({gender: 2})}}
+                                            onPress={(value) => {
+                                                this.setState({gender: 2})
+                                                this.personal.gender = value
+                                            }}
                                         />
                                         <Text note>Female</Text>
                                     </ListItem>
@@ -127,7 +139,10 @@ export default class PersonalDetails extends Component{
                                         <RadioButton
                                             value='Single'
                                             status={this.state.marital === 0 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({marital: 0})}}
+                                            onPress={(value) => {
+                                                this.setState({marital: 0})
+                                                this.personal.maritalStatus = value;
+                                            }}
                                         />
                                         <Text note>Single</Text>
                                     </ListItem>
@@ -135,7 +150,10 @@ export default class PersonalDetails extends Component{
                                         <RadioButton
                                             value='Married'
                                             status={this.state.marital === 1 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({marital: 1})}}
+                                            onPress={(value) => {
+                                                this.setState({marital: 1})
+                                                this.personal.maritalStatus = value;
+                                            }}
                                         />
                                         <Text note>Married</Text>
                                     </ListItem>
@@ -143,7 +161,10 @@ export default class PersonalDetails extends Component{
                                         <RadioButton
                                             value='Divorced'
                                             status={this.state.marital === 2 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({marital: 2})}}
+                                            onPress={(value) => {
+                                                this.setState({marital: 2})
+                                                this.personal.maritalStatus = value;
+                                            }}
                                         />
                                         <Text note>Divorced</Text>
                                     </ListItem>
@@ -151,7 +172,10 @@ export default class PersonalDetails extends Component{
                                         <RadioButton
                                             value='Widowed'
                                             status={this.state.marital === 3 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({marital: 3})}}
+                                            onPress={(value) => {
+                                                this.setState({marital: 3})
+                                                this.personal.maritalStatus = value;
+                                            }}
                                         />
                                         <Text note>Widowed</Text>
                                     </ListItem>
@@ -165,7 +189,10 @@ export default class PersonalDetails extends Component{
                                         <RadioButton
                                             value='Voters'
                                             status={this.state.identification === 1 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({identification: 1})}}
+                                            onPress={(value) => {
+                                                this.setState({identification: 1})
+                                                this.personal.identification = value;
+                                            }}
                                         />
                                         <Text note>Voter's ID</Text>
                                     </ListItem>
@@ -173,7 +200,10 @@ export default class PersonalDetails extends Component{
                                         <RadioButton
                                             value='Driver'
                                             status={this.state.identification === 2 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({identification: 2})}}
+                                            onPress={(value) => {
+                                                this.setState({identification: 2})
+                                                this.personal.identification = value;
+                                            }}
                                         />
                                         <Text note>Driver's Licence</Text>
                                     </ListItem>
@@ -181,7 +211,10 @@ export default class PersonalDetails extends Component{
                                         <RadioButton
                                             value='Passport'
                                             status={this.state.identification === 3 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({identification: 3})}}
+                                            onPress={(value) => {
+                                                this.setState({identification: 3})
+                                                this.personal.identification = value;
+                                            }}
                                         />
                                         <Text note>Passport</Text>
                                     </ListItem>
@@ -189,23 +222,32 @@ export default class PersonalDetails extends Component{
                                         <RadioButton
                                             value='National'
                                             status={this.state.identification === 4 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({identification: 4})}}
+                                            onPress={(value) => {
+                                                this.setState({identification: 4})
+                                                this.personal.identification = value;
+                                            }}
                                         />
                                         <Text note>National ID</Text>
                                     </ListItem>
                                     <Item floatingLabel>
                                         <Label>ID Number</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.personal.idnumber = text}
+                                        />
                                     </Item>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
                                         <Label>Nationality</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.personal.nationality = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>TIN</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.personal.tin = text}
+                                        />
                                     </Item>
                                 </CardItem>
                                 <CardItem header style={{marginTop: 25}}>
@@ -214,11 +256,15 @@ export default class PersonalDetails extends Component{
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
                                         <Label>Mobile Nos.</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.personal.contact.mobile = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>Email</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.personal.contact.email = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>Postal Address</Label>
