@@ -43,6 +43,7 @@ export default class PersonalDetails extends Component{
     }
     // Select Region from picker
     selectRegion(value){
+        this.personal.contact.region = value;
         this.setState({
             region: value
         })
@@ -268,25 +269,35 @@ export default class PersonalDetails extends Component{
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>Postal Address</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.personal.contact.postal = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>Digital Address</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.personal.contact.digitalAddress = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>Street</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.personal.contact.street = text}
+                                        />
                                     </Item>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
                                         <Label>Suburb</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.personal.contact.suburb = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel >
                                         <Label>Town</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.personal.contact.town = text}
+                                        />
                                     </Item>
                                     <Item picker>
                                         <Picker
