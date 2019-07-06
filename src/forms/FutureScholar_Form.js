@@ -13,6 +13,7 @@ import defaultStyles from '../styles/DefaultStyles';
 import { Icon } from 'react-native-elements';
 import Swiper from 'react-native-swiper'
 import { RadioButton } from 'react-native-paper';
+import SocketIOClient from 'socket.io-client';
 
 import BenefitsHistory from '../components/BenefitsHistory';
 import MedicalHistory from '../components/MedicalHistory';
@@ -39,6 +40,8 @@ export default class FutureScholar_Form extends React.Component{
             surgical: null,
             illness: null
         }
+
+        // this.socket = SocketIOClient('http://localhost:4000')
     }
     setNextBirthDay = (dob) => {
         var nextDate = new Date();
@@ -78,6 +81,7 @@ export default class FutureScholar_Form extends React.Component{
             region: value
         })
     }
+    
     render(){
         return(
             <ImageBackground 
@@ -90,6 +94,7 @@ export default class FutureScholar_Form extends React.Component{
                     scrollsToTop={true}>
 
                     <PersonalDetails/>
+                    
                     <Employment />
                     <BenefitsHistory />
                     <MedicalHistory />

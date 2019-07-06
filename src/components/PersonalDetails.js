@@ -3,6 +3,7 @@ import {KeyboardAvoidingView, ScrollView} from 'react-native';
 import {Card, CardItem, Form, View, Text, Item, Label, Input, ListItem, DatePicker, Picker, Button} from 'native-base';
 import { RadioButton } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
+import SocketIOClient from 'socket.io-client';
 
 import defaultStyles from '../styles/DefaultStyles';
 
@@ -19,6 +20,8 @@ export default class PersonalDetails extends Component{
         }
 
         this.personal = new PersonModel();
+
+        this.socket = SocketIOClient('http://localhost:4000')
     }
     // Get the next birthday of client
     setNextBirthDay = (dob) => {
@@ -47,6 +50,9 @@ export default class PersonalDetails extends Component{
         this.setState({
             region: value
         })
+    }
+    submitting = () => {
+        this.socket.emit('submit', this.personal)
     }
     render(){
         const {person} = this.state;
@@ -312,11 +318,13 @@ export default class PersonalDetails extends Component{
                                         
                                     </Item>
                                 </CardItem>
-                                {/* <CardItem>
-                                    <Button>
+                                <CardItem>
+                                    <Button
+                                        onPress={this.submitting.bind(this)}
+                                    >
                                         <Text>Next >></Text>
                                     </Button>
-                                </CardItem> */}
+                                </CardItem>
                             </Form>
                         
                     </ScrollView>
