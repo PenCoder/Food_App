@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements';
 
 import defaultStyles from '../styles/DefaultStyles';
 
-import {Personal} from '../models/Models';
+import {PersonModel} from '../models/Models';
 
 export default class PersonalDetails extends Component{
     constructor(props){
@@ -18,7 +18,7 @@ export default class PersonalDetails extends Component{
             nextAge: 0
         }
 
-        this.personal = new Personal();
+        this.personal = new PersonModel();
     }
     // Get the next birthday of client
     setNextBirthDay = (dob) => {
@@ -312,11 +312,11 @@ export default class PersonalDetails extends Component{
                                         
                                     </Item>
                                 </CardItem>
-                                <CardItem>
+                                {/* <CardItem>
                                     <Button>
                                         <Text>Next >></Text>
                                     </Button>
-                                </CardItem>
+                                </CardItem> */}
                             </Form>
                         
                     </ScrollView>

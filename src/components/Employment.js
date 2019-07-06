@@ -5,12 +5,19 @@ import {Card, CardItem, Form, View, Text, Item, Label, Input, ListItem, DatePick
 import defaultStyles from '../styles/DefaultStyles';
 import { RadioButton } from 'react-native-paper';
 
+import { EmploymentModel } from '../models/Models';
+
 export default class Employment extends Component{
     constructor(props){
         super(props)
         this.state = {
             net: null
         }
+
+        this.employmentModel = new EmploymentModel();
+    }
+    setEmploymentDate = (empDate) => {
+        this.employmentModel.employmentDate = empDate;
     }
     render(){
         return(
@@ -30,14 +37,14 @@ export default class Employment extends Component{
                                     <Item floatingLabel>
                                         <Label>Employer</Label>
                                         <Input
-
+                                            onChangeText={text => this.employmentModel.employer = text}
                                         />
                                     </Item>
                                 
                                     <Item floatingLabel >
                                         <Label>Employee/Staff No.</Label>
                                         <Input
-                                            // style={defaultStyles.inputContainer}
+                                            onChangeText={text => this.employmentModel.employeeNumber = text}
                                         />
                                     </Item>
                                     <Item floatingLabel>
@@ -51,7 +58,7 @@ export default class Employment extends Component{
                                             androidMode='calendar'
                                             placeHolderText='Select Date'
                                             placeHolderTextStyle={{color: '#999'}}
-                                            onDateChange={() => {}}
+                                            onDateChange={() => this.setEmploymentDate.bind(this)}
                                         />
                                     </Item>
                                 </CardItem>
@@ -63,7 +70,9 @@ export default class Employment extends Component{
                                         <RadioButton
                                             value='0 - 500'
                                             status={this.state.net === 1 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({net: 1})}}
+                                            onPress={() => {
+                                                this.setState({net: 1})
+                                            }}
                                         />
                                         <Text note>0 - 500</Text>
                                     </ListItem>

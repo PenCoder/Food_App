@@ -1,4 +1,4 @@
-export class Personal {
+export class PersonModel {
     constructor(){
         this.title= null;
         this.name = {
@@ -24,7 +24,7 @@ export class Personal {
         }
     }
 }
-export class Employment {
+export class EmploymentModel {
     constructor(){
         this.employer = null;
         this.employeeNumber = null
