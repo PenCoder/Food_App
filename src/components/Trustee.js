@@ -5,6 +5,8 @@ import defaultStyles from '../styles/DefaultStyles';
 import { Card, CardItem, Text, View, Form, Label, Input, Item, ListItem, DatePicker } from 'native-base';
 import { RadioButton } from 'react-native-paper';
 
+import {TrusteeModel } from '../models/Models';
+
 export default class Trustee extends Component {
     constructor(props){
         super(props);
@@ -12,9 +14,11 @@ export default class Trustee extends Component {
             nextAge: 0,
             gender: null
         }
-        
+        this.trusteeModel = new TrusteeModel();
     }
     setNextBirthDay = (dob) => {
+
+        this.trusteeModel.dob = dob;
         var nextDate = new Date();
         if (nextDate.getMonth() > dob.getMonth()){
             nextDate.setMonth(dob.getMonth());
@@ -37,13 +41,11 @@ export default class Trustee extends Component {
         return (
             <Card style={defaultStyles.fullScreen}>
                 <KeyboardAvoidingView
-                    behavior='height'
-                    keyboardVerticalOffset={5}
-                    >
+                    behavior='position'
+                    keyboardVerticalOffset={5}>
                     <ScrollView
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}>
-                            
                             <Form>
                                 {/* Title Bar */}
                                 <View style={defaultStyles.redBar}>
@@ -54,11 +56,15 @@ export default class Trustee extends Component {
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
                                         <Label>Surname</Label>
-                                        <Input />
+                                        <Input
+                                            onChangeText={text => this.trusteeModel.name.surname = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>First Name(s)</Label>
-                                        <Input />
+                                        <Input
+                                            onChangeText={text => this.trusteeModel.name.firstname = text}
+                                        />
                                     </Item>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
@@ -87,39 +93,50 @@ export default class Trustee extends Component {
                                     <Text>Gender: </Text>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
-                                    <ListItem >
-                                        <RadioButton
-                                            value='Male'
-                                            status={this.state.gender === 1 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({gender: 1})}}
-                                        />
-                                        <Text note>Male</Text>
-                                    </ListItem>
-                                    <ListItem >
-                                        <RadioButton
-                                            value='Female'
-                                            status={this.state.gender === 2 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({gender: 2})}}
-                                        />
-                                        <Text note>Female</Text>
-                                    </ListItem>
-                                </CardItem>
-                                <CardItem style={defaultStyles.wrap}>
+                                    <Text>Gender: </Text>
+                                    <RadioButton.Group
+                                        onValueChange={value => {
+                                            this.trusteeModel.gender = value
+                                            this.setState({gender: value})
+                                        }}
+                                        value={this.state.gender}>
+                                        <ListItem >
+                                            <RadioButton
+                                                value='Male'
+                                                status={this.state.gender === 'Male' ? 'checked' : 'unchecked'}
+                                             />
+                                            <Text note>Male</Text>
+                                        </ListItem>
+                                        <ListItem >
+                                            <RadioButton
+                                                value='Female'
+                                                status={this.state.gender === 'Female' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>Female</Text>
+                                        </ListItem>
+                                        
+                                    </RadioButton.Group>
+                                
                                     <Item floatingLabel>
                                         <Label>Relationship</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.trusteeModel.relationship = text}
+                                        />
                                     </Item>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
                                         <Label>Postal Address/Email</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.trusteeModel.postal = text}
+                                        />
                                     </Item>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
                                         <Label>Mobile Phone</Label>
                                         <Input 
+                                            onChangeText={text => this.trusteeModel.relationship = text}
                                             keyboardType='name-phone-pad'
                                         />
                                     </Item>

@@ -5,12 +5,35 @@ import {Card, CardItem, Form, View, Text, Item, Label, Input, ListItem, DatePick
 import defaultStyles from '../styles/DefaultStyles';
 import { RadioButton } from 'react-native-paper';
 
+import {BeneficiaryModel} from '../models/Models';
+
 export default class PPBeneficiary extends Component{
     constructor(props){
         super(props)
         this.state = {
             nextAge: 0
         }
+        this.beneficiaryModel = new BeneficiaryModel();
+    }
+    setNextBirthDay = (dob) => {
+        this.beneficiaryModel.dob = dob;
+        var nextDate = new Date();
+        if (nextDate.getMonth() > dob.getMonth()){
+            nextDate.setMonth(dob.getMonth());
+            nextDate.setDate(dob.getDate());
+
+            nextDate.setFullYear(nextDate.getFullYear() + 1)
+        }else if (nextDate.getMonth() == dob.getMonth() && nextDate.getDate() > dob.getDate()){
+            nextDate.setDate(dob.getDate());
+
+            nextDate.setFullYear(nextDate.getFullYear() + 1)
+        }else if (nextDate.getMonth() == dob.getMonth() && nextDate.getDate() == dob.getDate()){
+            nextDate.setFullYear(nextDate.getFullYear() + 1)
+        }
+        var nextAge = nextDate.getFullYear() - dob.getFullYear();
+        this.setState({
+            nextAge: nextAge.toString()
+        })
     }
     render(){
         return(
@@ -30,13 +53,13 @@ export default class PPBeneficiary extends Component{
                                     <Item floatingLabel style={{flex: 0.5}}>
                                         <Label>Surname</Label>
                                         <Input
-                                            // style={defaultStyles.inputContainer}
+                                            onChangeText={text => this.beneficiaryModel.name.surname = text}
                                         />
                                     </Item>
                                     <Item floatingLabel style={{flex: 0.5}}>
                                         <Label>First Name</Label>
                                         <Input
-                                            // style={defaultStyles.inputContainer}
+                                            onChangeText={text => this.beneficiaryModel.name.firstname = text}
                                         />
                                     </Item>
                                 </CardItem>
@@ -67,36 +90,48 @@ export default class PPBeneficiary extends Component{
                                 </CardItem> */}
                                 <CardItem style={defaultStyles.wrap}>
                                     <Text>Gender: </Text>
-                                    <ListItem >
-                                        <RadioButton
-                                            value='Male'
-                                            status={this.state.gender === 1 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({gender: 1})}}
-                                        />
-                                        <Text note>Male</Text>
-                                    </ListItem>
-                                    <ListItem >
-                                        <RadioButton
-                                            value='Female'
-                                            status={this.state.gender === 2 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({gender: 2})}}
-                                        />
-                                        <Text note>Female</Text>
-                                    </ListItem>
+                                    <RadioButton.Group
+                                        onValueChange={value => {
+                                            this.beneficiaryModel.gender = value
+                                            this.setState({gender: value})
+                                        }}
+                                        value={this.state.gender}>
+                                        <ListItem >
+                                            <RadioButton
+                                                value='Male'
+                                                status={this.state.gender === 'Male' ? 'checked' : 'unchecked'}
+                                             />
+                                            <Text note>Male</Text>
+                                        </ListItem>
+                                        <ListItem >
+                                            <RadioButton
+                                                value='Female'
+                                                status={this.state.gender === 'Female' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>Female</Text>
+                                        </ListItem>
+                                        
+                                    </RadioButton.Group>
+                                
                                     <Item floatingLabel>
                                         <Label>Relationship</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.beneficiaryModel.relationship = text}
+                                        />
                                     </Item>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
                                         <Label>Postal/Email Address</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.beneficiaryModel.postal = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>Mobile No.</Label>
                                         <Input 
-                                            keyboardType='number-pad'
+                                            onChangeText={text => this.beneficiaryModel.relationship = text}
+                                            keyboardType='name-phone-pad'
                                         />
                                     </Item>
                                 </CardItem>

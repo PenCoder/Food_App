@@ -18,7 +18,8 @@ export default class PersonalDetails extends Component{
             gender: null,
             marital: null,
             identification: null,
-            nextAge: 0
+            nextAge: 0,
+            nationality: null
         }
         this.nationalities = nationalities.nationalities;
         this.personal = new PersonModel();
@@ -52,6 +53,12 @@ export default class PersonalDetails extends Component{
         this.setState({
             region: value
         })
+    }
+    selectNational(value){
+        this.personal.nationality = value;
+        this.setState({
+            nationality: value
+        });
     }
     submitting = () => {
         this.socket.emit('submit', this.personal)
@@ -239,13 +246,13 @@ export default class PersonalDetails extends Component{
                                     
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
-                                    <Item floatingLabel>
-                                        <Label>Nationality</Label>
+                                    <Item picker>
+                                        {/* <Label>Nationality</Label> */}
                                         <Picker
                                             placeholder='Select Country..'
                                             iosIcon={<Icon name='arrow-down' />}
-                                            selectedValue={this.state.region}
-                                            onValueChange={this.selectRegion.bind(this)}>
+                                            selectedValue={this.state.nationality}
+                                            onValueChange={this.selectNational.bind(this)}>
                                             <Picker.Item label='Select Country..' value={null} />
                                             {
                                                 this.nationalities.map((national, index) => {

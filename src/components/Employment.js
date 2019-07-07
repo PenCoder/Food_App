@@ -23,7 +23,7 @@ export default class Employment extends Component{
         return(
             <Card style={defaultStyles.fullScreen}>
                 <KeyboardAvoidingView
-                        behavior='height'
+                        behavior='position'
                         keyboardVerticalOffset={5}>
                         <ScrollView
                             showsHorizontalScrollIndicator={false}
@@ -66,49 +66,50 @@ export default class Employment extends Component{
                                     <Text style={defaultStyles.title2}>Monthly Net Earnings (GHC)</Text>
                                 </CardItem>
                                 <CardItem cardBody style={defaultStyles.wrap}>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='0 - 500'
-                                            status={this.state.net === 1 ? 'checked' : 'unchecked'}
-                                            onPress={() => {
-                                                this.setState({net: 1})
-                                            }}
-                                        />
-                                        <Text note>0 - 500</Text>
-                                    </ListItem>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='500 - 1000'
-                                            status={this.state.net === 2 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({net: 2})}}
-                                        />
-                                        <Text note>500 - 1000</Text>
-                                    </ListItem>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='1001 - 2000'
-                                            status={this.state.net === 3 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({net: 3})}}
-                                        />
-                                        <Text note>1001 - 2000</Text>
-                                    </ListItem>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='2001 - 4000'
-                                            status={this.state.net === 4 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({net: 4})}}
-                                        />
-                                        <Text note>2001 - 4000</Text>
-                                    </ListItem>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='above 4000'
-                                            status={this.state.net === 5 ? 'checked' : 'unchecked'}
-                                            onPress={() => {this.setState({net: 5})}}
-                                        />
-                                        <Text note>above 4000</Text>
-                                    </ListItem>
-                                    
+                                    <RadioButton.Group
+                                        value={this.state.net}
+                                        onValueChange={value => {
+                                            this.employmentModel.monthlyEarnings = value;
+                                            this.setState({net : value})  
+                                        }}
+                                        >
+                                        <ListItem>
+                                            <RadioButton
+                                                value='0 - 500'
+                                                status={this.state.net === '0 - 500' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>0 - 500</Text>
+                                        </ListItem>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='500 - 1000'
+                                                status={this.state.net === '500 - 1000' ? 'checked' : 'unchecked'}
+                                             />
+                                            <Text note>500 - 1000</Text>
+                                        </ListItem>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='1001 - 2000'
+                                                status={this.state.net === '1001 - 2000' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>1001 - 2000</Text>
+                                        </ListItem>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='2001 - 4000'
+                                                status={this.state.net === '2001 - 4000' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>2001 - 4000</Text>
+                                        </ListItem>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='above 4000'
+                                                status={this.state.net === 'above 4000' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>above 4000</Text>
+                                        </ListItem>
+                                        
+                                    </RadioButton.Group>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
@@ -117,11 +118,21 @@ export default class Employment extends Component{
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>Salary Pay Day</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.employmentModel.payday = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>Job Title</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.employmentModel.jobtitle = text}
+                                        />
+                                    </Item>
+                                    <Item floatingLabel>
+                                        <Label>Occupation</Label>
+                                        <Input 
+                                            onChangeText={text => this.employmentModel.occupation = text}
+                                        />
                                     </Item>
                                 </CardItem>
                             </Form>

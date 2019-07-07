@@ -5,12 +5,16 @@ import {Card, CardItem, Form, View, Text, Item, Label, Input, ListItem, DatePick
 import defaultStyles from '../styles/DefaultStyles';
 import { RadioButton } from 'react-native-paper';
 
+import {PayerModel} from '../models/Models';
+
 export default class FSPayments extends Component{
     constructor(props){
         super(props)
         this.state = {
             adjuster: null
         }
+
+        this.payerModel = new PayerModel();
     }
     selectAdjuster(value){
         this.setState({
@@ -34,34 +38,47 @@ export default class FSPayments extends Component{
                                 
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
-                                        <Label>Payer's Name (if different from policy holder)</Label>
-                                        <Input />
+                                        <Label>Payer</Label>
+                                        <Input 
+                                            onChangeText={text => this.payerModel.name = text}
+                                        />
                                     </Item>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
                                         <Label>Telephone No.</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.payerModel.mobile = text}
+                                            keyboardType='phone-pad'
+                                        />
                                     </Item>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
                                         <Label>Form of Identification</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.payerModel.identification = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>I.D. Number</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.payerModel.id_number = text}
+                                        />
                                     </Item>
                                 {/* </CardItem>
                                 <CardItem style={defaultStyles.wrap}> */}
                                     <Item floatingLabel>
                                         <Label>Employer/Pay Point Deduction</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.payerModel.paypoint.employer = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>Employee/Staff No.</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.payerModel.paypoint.employee_number = text}
+                                        />
                                     </Item>
                                     {/* <CardItem style={defaultStyles.wrap}> */}
                                     <ListItem>
@@ -81,23 +98,30 @@ export default class FSPayments extends Component{
                                 </CardItem>
                                 <CardItem header style={defaultStyles.wrap}>
                                     <Text>Debit Order Information (Bank Account Details)</Text>
-                                {/* </CardItem>
-                                <CardItem style={defaultStyles.wrap}> */}
+                                
                                     <Item floatingLabel>
                                         <Label>Account Name</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.payerModel.bank_details.name = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel >
                                         <Label>Bank</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.payerModel.bank_details.bank = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel style={{flex: 0.7}}>
                                         <Label>Account Number</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.payerModel.bank_details.number = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel >
                                         <Label>Branch</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.payerModel.bank_details.branch = text}
+                                        />
                                     </Item>
                                     <ListItem floatingLabel >
                                         <Text>Date of First Deduction: </Text>
@@ -115,11 +139,15 @@ export default class FSPayments extends Component{
                                     </ListItem>
                                     <Item floatingLabel style={{flex: 0.5}}>
                                         <Label>Premium</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.payerModel.bank_details.premium = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel style={{flex: 0.5}}>
                                         <Label>Frequency</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.payerModel.bank_details.frequency = text}
+                                        />
                                     </Item>
                                     <Item picker>
                                         <Picker
