@@ -21,7 +21,7 @@ export default class PersonalDetails extends Component{
 
         this.personal = new PersonModel();
 
-        this.socket = SocketIOClient('http://localhost:4000')
+        this.socket = SocketIOClient('http://192.168.8.103:4000')
     }
     // Get the next birthday of client
     setNextBirthDay = (dob) => {
@@ -75,13 +75,13 @@ export default class PersonalDetails extends Component{
                                     <Item floatingLabel style={{flex: 0.5}}>
                                         <Label>Surname</Label>
                                         <Input
-                                            onChangeText={text = this.personal.name.surname}
+                                            onChangeText={text => this.personal.name.surname = text}
                                         />
                                     </Item>
                                     <Item floatingLabel style={{flex: 0.5}}>
                                         <Label>First Name</Label>
                                         <Input
-                                            onChangeText={text = this.personal.name.firstname}
+                                            onChangeText={text => this.personal.name.firstname = text}
                                         />
                                     </Item>
                                 </CardItem>
@@ -114,28 +114,37 @@ export default class PersonalDetails extends Component{
                                     <Text>Gender: </Text>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
-                                    <ListItem >
-                                        <RadioButton
-                                            value='Male'
-                                            status={this.state.gender === 1 ? 'checked' : 'unchecked'}
-                                            onPress={(value) => {
-                                                this.setState({gender: 1})
-                                                this.personal.gender = value
-                                            }}
-                                        />
-                                        <Text note>Male</Text>
-                                    </ListItem>
-                                    <ListItem >
-                                        <RadioButton
-                                            value='Female'
-                                            status={this.state.gender === 2 ? 'checked' : 'unchecked'}
-                                            onPress={(value) => {
-                                                this.setState({gender: 2})
-                                                this.personal.gender = value
-                                            }}
-                                        />
-                                        <Text note>Female</Text>
-                                    </ListItem>
+                                    <RadioButton.Group
+                                        onValueChange={value => {
+                                            this.personal.gender = value
+                                            this.setState({gender: value})
+                                        }}
+                                        value={this.state.gender}
+                                    >
+                                        <ListItem >
+                                            <RadioButton
+                                                value='Male'
+                                                status={this.state.gender === 'Male' ? 'checked' : 'unchecked'}
+                                                // onPress={(value) => {
+                                                //     this.setState({gender: 1})
+                                                    
+                                                // }}
+                                            />
+                                            <Text note>Male</Text>
+                                        </ListItem>
+                                        <ListItem >
+                                            <RadioButton
+                                                value='Female'
+                                                status={this.state.gender === 'Female' ? 'checked' : 'unchecked'}
+                                                // onPress={(value) => {
+                                                //     this.setState({gender: 2})
+                                                //     this.personal.gender = value
+                                                // }}
+                                            />
+                                            <Text note>Female</Text>
+                                        </ListItem>
+                                        
+                                    </RadioButton.Group>
                                 </CardItem>
                                 
                                 <CardItem >
