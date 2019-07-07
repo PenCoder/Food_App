@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {KeyboardAvoidingView, ScrollView} from 'react-native';
-import {Card, CardItem, Form, View, Text, Item, Label, Input, ListItem, DatePicker, Picker, Button} from 'native-base';
+import {Card, CardItem, Form, View, Text, Item, Label, Input, ListItem, DatePicker, Button, Picker} from 'native-base';
 import { RadioButton } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 import SocketIOClient from 'socket.io-client';
@@ -8,6 +8,8 @@ import SocketIOClient from 'socket.io-client';
 import defaultStyles from '../styles/DefaultStyles';
 
 import {PersonModel} from '../models/Models';
+
+import nationalities from '../models/data/nationalities';
 
 export default class PersonalDetails extends Component{
     constructor(props){
@@ -18,7 +20,7 @@ export default class PersonalDetails extends Component{
             identification: null,
             nextAge: 0
         }
-
+        this.nationalities = nationalities
         this.personal = new PersonModel();
 
         this.socket = SocketIOClient('http://192.168.8.103:4000')
@@ -99,6 +101,7 @@ export default class PersonalDetails extends Component{
                                             placeHolderTextStyle={{color: '#999'}}
                                             onDateChange={this.setNextBirthDay}
                                         />
+                                        <Icon name='calendar' type='antdesign' />
                                     </ListItem>
                                     <Input
                                         label='Age Next B.D.:'
@@ -107,9 +110,7 @@ export default class PersonalDetails extends Component{
                                         style={defaultStyles.inputContainer}
                                     />
                                 </CardItem>
-                                {/* <CardItem style={defaultStyles.wrap}>
-                                    
-                                </CardItem> */}
+                                
                                 <CardItem header>
                                     <Text>Gender: </Text>
                                 </CardItem>
@@ -119,8 +120,7 @@ export default class PersonalDetails extends Component{
                                             this.personal.gender = value
                                             this.setState({gender: value})
                                         }}
-                                        value={this.state.gender}
-                                    >
+                                        value={this.state.gender}>
                                         <ListItem >
                                             <RadioButton
                                                 value='Male'
@@ -151,113 +151,110 @@ export default class PersonalDetails extends Component{
                                     <Text>Marital Status</Text>
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
-                                    <ListItem >
-                                        <RadioButton
-                                            value='Single'
-                                            status={this.state.marital === 0 ? 'checked' : 'unchecked'}
-                                            onPress={(value) => {
-                                                this.setState({marital: 0})
-                                                this.personal.maritalStatus = value;
-                                            }}
-                                        />
-                                        <Text note>Single</Text>
-                                    </ListItem>
-                                    <ListItem >
-                                        <RadioButton
-                                            value='Married'
-                                            status={this.state.marital === 1 ? 'checked' : 'unchecked'}
-                                            onPress={(value) => {
-                                                this.setState({marital: 1})
-                                                this.personal.maritalStatus = value;
-                                            }}
-                                        />
-                                        <Text note>Married</Text>
-                                    </ListItem>
-                                    <ListItem >
-                                        <RadioButton
-                                            value='Divorced'
-                                            status={this.state.marital === 2 ? 'checked' : 'unchecked'}
-                                            onPress={(value) => {
-                                                this.setState({marital: 2})
-                                                this.personal.maritalStatus = value;
-                                            }}
-                                        />
-                                        <Text note>Divorced</Text>
-                                    </ListItem>
-                                    <ListItem >
-                                        <RadioButton
-                                            value='Widowed'
-                                            status={this.state.marital === 3 ? 'checked' : 'unchecked'}
-                                            onPress={(value) => {
-                                                this.setState({marital: 3})
-                                                this.personal.maritalStatus = value;
-                                            }}
-                                        />
-                                        <Text note>Widowed</Text>
-                                    </ListItem>
+                                    <RadioButton.Group
+                                        value={this.state.marital}
+                                        onValueChange={value => {
+                                            this.personal.maritalStatus = value;
+                                            this.setState({marital : value})  
+                                        }}>
+                                        <ListItem >
+                                            <RadioButton
+                                                value='Single'
+                                                status={this.state.marital === 'Single' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>Single</Text>
+                                        </ListItem>
+                                        <ListItem >
+                                            <RadioButton
+                                                value='Married'
+                                                status={this.state.marital === 'Married' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>Married</Text>
+                                        </ListItem>
+                                        <ListItem >
+                                            <RadioButton
+                                                value='Divorced'
+                                                status={this.state.marital === 'Divorced' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>Divorced</Text>
+                                        </ListItem>
+                                        <ListItem >
+                                            <RadioButton
+                                                value='Widowed'
+                                                status={this.state.marital === 'Widowed' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>Widowed</Text>
+                                        </ListItem>
+                                    
+                                    </RadioButton.Group>
                                 </CardItem>
                                 <CardItem >
                                     <Text>Identification</Text>
                                 </CardItem>
                                 
                                 <CardItem style={defaultStyles.wrap}>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='Voters'
-                                            status={this.state.identification === 1 ? 'checked' : 'unchecked'}
-                                            onPress={(value) => {
-                                                this.setState({identification: 1})
-                                                this.personal.identification = value;
-                                            }}
-                                        />
-                                        <Text note>Voter's ID</Text>
-                                    </ListItem>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='Driver'
-                                            status={this.state.identification === 2 ? 'checked' : 'unchecked'}
-                                            onPress={(value) => {
-                                                this.setState({identification: 2})
-                                                this.personal.identification = value;
-                                            }}
-                                        />
-                                        <Text note>Driver's Licence</Text>
-                                    </ListItem>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='Passport'
-                                            status={this.state.identification === 3 ? 'checked' : 'unchecked'}
-                                            onPress={(value) => {
-                                                this.setState({identification: 3})
-                                                this.personal.identification = value;
-                                            }}
-                                        />
-                                        <Text note>Passport</Text>
-                                    </ListItem>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='National'
-                                            status={this.state.identification === 4 ? 'checked' : 'unchecked'}
-                                            onPress={(value) => {
-                                                this.setState({identification: 4})
-                                                this.personal.identification = value;
-                                            }}
-                                        />
-                                        <Text note>National ID</Text>
-                                    </ListItem>
+                                    <RadioButton.Group
+                                        value={this.state.identification}
+                                        onValueChange={value => {
+                                            this.personal.identification = value;
+                                            this.setState({identification : value})  
+                                        }}
+                                    >
+                                        <ListItem>
+                                            <RadioButton
+                                                value='Voters'
+                                                status={this.state.identification === 'Voters' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>Voter's ID</Text>
+                                        </ListItem>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='Driver'
+                                                status={this.state.identification === 'Driver' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>Driver's Licence</Text>
+                                        </ListItem>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='Passport'
+                                                status={this.state.identification === 'Passport' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>Passport</Text>
+                                        </ListItem>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='National'
+                                                status={this.state.identification === 'National' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text note>National ID</Text>
+                                        </ListItem>
+                                        
+                                    </RadioButton.Group>
                                     <Item floatingLabel>
                                         <Label>ID Number</Label>
                                         <Input 
                                             onChangeText={text => this.personal.idnumber = text}
                                         />
                                     </Item>
+                                    
                                 </CardItem>
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
                                         <Label>Nationality</Label>
-                                        <Input 
-                                            onChangeText={text => this.personal.nationality = text}
-                                        />
+                                        <Picker
+                                            placeholder='Select Country..'
+                                            iosIcon={<Icon name='arrow-down' />}
+                                            selectedValue={this.state.region}
+                                            onValueChange={this.selectRegion.bind(this)}>
+                                            <Picker.Item label='Select Country..' value={null} />
+                                            {
+                                                this.nationalities.map((national, index) => {
+                                                    return (
+                                                        <Picker.Item label={national} value={national} key={index} />
+                                                    )
+                                                })
+                                            }
+                                        </Picker>
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>TIN</Label>
@@ -316,10 +313,11 @@ export default class PersonalDetails extends Component{
                                     </Item>
                                     <Item picker>
                                         <Picker
-                                            placeholder='Region'
+                                            placeholder='Select Region..'
                                             iosIcon={<Icon name='arrow-down' />}
                                             selectedValue={this.state.region}
                                             onValueChange={this.selectRegion.bind(this)}>
+                                            <Picker.Item label='Select Region...' value={null} color='#787878'/>
                                             <Picker.Item label='Eastern' value='eastern'/>
                                             <Picker.Item label='Western' value='western'/>
                                             <Picker.Item label='Greater Accra' value='accra'/>
