@@ -5,12 +5,15 @@ import {Card, CardItem, Form, View, Text, Item, Label, Input, ListItem, DatePick
 import defaultStyles from '../styles/DefaultStyles';
 import { RadioButton } from 'react-native-paper';
 
+import {BenefitsModel} from '../models/Models';
+
 export default class BenefitsHistory extends Component{
     constructor(props){
         super(props)
         this.state = {
             adjuster: null
         }
+        this.benefitsModel = new BenefitsModel();
     }
     render(){
         return(
@@ -29,64 +32,74 @@ export default class BenefitsHistory extends Component{
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel style={{flex: 0.4}}>
                                         <Label>Life Cover</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.benefitsModel.lifecover = text}
+                                        />
                                     </Item>
                                     <Item floatingLabel>
                                         <Label>Planned Contribution</Label>
-                                        <Input />
+                                        <Input 
+                                            onChangeText={text => this.benefitsModel.premium = text}
+                                        />
                                     </Item>
                                 </CardItem>
                                 <CardItem header>
                                     <Text>Automatic Yearly Premium Adjuster</Text>
                                 </CardItem>
                                 <CardItem cardBody style={defaultStyles.wrap}>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='5'
-                                            status={this.state.adjuster == 5 ? 'checked' : 'unchecked'}
-                                            onPress={() => this.setState({adjuster: 5})}
-                                        />
-                                        <Text>5%</Text>
-                                    </ListItem>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='5'
-                                            status={this.state.adjuster == 10 ? 'checked' : 'unchecked'}
-                                            onPress={() => this.setState({adjuster: 10})}
-                                        />
-                                        <Text>10%</Text>
-                                    </ListItem>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='5'
-                                            status={this.state.adjuster == 15 ? 'checked' : 'unchecked'}
-                                            onPress={() => this.setState({adjuster: 15})}
-                                        />
-                                        <Text>15%</Text>
-                                    </ListItem>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='5'
-                                            status={this.state.adjuster == 20 ? 'checked' : 'unchecked'}
-                                            onPress={() => this.setState({adjuster: 20})}
-                                        />
-                                        <Text>20%</Text>
-                                    </ListItem>
-                                    <ListItem>
-                                        <RadioButton
-                                            value='5'
-                                            status={this.state.adjuster == 25 ? 'checked' : 'unchecked'}
-                                            onPress={() => this.setState({adjuster: 25})}
-                                        />
-                                        <Text>25%</Text>
-                                    </ListItem>
+                                    <RadioButton.Group
+                                        onValueChange={value => {
+                                            this.benefitsModel.adjuster = value
+                                            this.setState({adjuster: value})
+                                        }}
+                                        value={this.state.adjuster}>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='5'
+                                                status={this.state.adjuster == '5' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text>5%</Text>
+                                        </ListItem>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='10'
+                                                status={this.state.adjuster == '10' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text>10%</Text>
+                                        </ListItem>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='15'
+                                                status={this.state.adjuster == '15' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text>15%</Text>
+                                        </ListItem>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='20'
+                                                status={this.state.adjuster == '20' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text>20%</Text>
+                                        </ListItem>
+                                        <ListItem>
+                                            <RadioButton
+                                                value='25'
+                                                status={this.state.adjuster == '25' ? 'checked' : 'unchecked'}
+                                            />
+                                            <Text>25%</Text>
+                                        </ListItem>
+                                        
+                                    </RadioButton.Group>
                                 </CardItem>
                                 
                                 <CardItem style={defaultStyles.wrap}>
                                     <Item floatingLabel>
-                                        <Label>Encashment Term(mini, 7years)</Label>
-                                        <Input />
+                                        <Label>Term(mini, 7years)</Label>
+                                        <Input 
+                                            onChangeText={text => this.benefitsModel.term = text}
+                                        />
                                     </Item>
+                                    <Text>years</Text>
                                 </CardItem>
                                 {/* Insurance History */}
                                 <View style={[defaultStyles.redBar, {marginTop: 20}]}>

@@ -56,6 +56,19 @@ export class BeneficiaryModel {
         this.mobile = null;
     }
 }
+export class BenefitsModel{
+    constructor(){
+        this.lifecover = null;
+        this.premium = null;
+        this.adjuster = null;
+        this.term = null;
+    }
+}
+export class MedicalModel{
+    constructor(){
+        
+    }
+}
 export class PayerModel {
     constructor(){
         this.name = null;
