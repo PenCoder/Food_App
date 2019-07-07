@@ -20,7 +20,7 @@ export default class PersonalDetails extends Component{
             identification: null,
             nextAge: 0
         }
-        this.nationalities = nationalities
+        this.nationalities = nationalities.nationalities;
         this.personal = new PersonModel();
 
         this.socket = SocketIOClient('http://192.168.8.103:4000')
