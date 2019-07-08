@@ -23,6 +23,9 @@ import FSPayments from '../components/FSPayments';
 import Employment from '../components/Employment';
 import PPBeneficiary from '../components/PPBeneficiary';
 
+import {PersonModel} from '../models/Models';
+import SignatureView from 'react-native-signature-canvas';
+
 export default class FutureScholar_Form extends React.Component{
     constructor(props){
         super(props)
@@ -69,19 +72,15 @@ export default class FutureScholar_Form extends React.Component{
             </Button>
         )
     }
-    _renderPrevButton = () => {
-        return (
-            <Button>
-                <Text>Prev</Text>
-            </Button>
-        )
-    }
     selectRegion(value){
         this.setState({
             region: value
         })
+        this.personModel = new PersonModel();
     }
-    
+    getModel = (model) => {
+
+    }
     render(){
         return(
             <ImageBackground 
@@ -93,16 +92,26 @@ export default class FutureScholar_Form extends React.Component{
                     loop={false}
                     scrollsToTop={true}>
 
-                    <PersonalDetails/>
-                    
+                    <PersonalDetails 
+                        model={this.personModel}
+                    />
                     <Employment />
                     <BenefitsHistory />
                     <MedicalHistory />
                     <PPBeneficiary />
-                    <Trustee 
-                        index={6}
-                    />
+                    <Trustee />
                     <FSPayments />
+
+                    <SignatureView 
+                        descriptionText='Sign'
+                        clearText='Clear'
+                        confirmText='Save'
+                        webStyle={`.m-signature-pad--footer
+                                    .button {
+                                    background-color: red;
+                                    color: #FFF;
+                                    }`}
+                    />
                 </Swiper>
             
             </ImageBackground>
