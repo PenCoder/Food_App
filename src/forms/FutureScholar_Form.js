@@ -23,7 +23,7 @@ import FSPayments from '../components/FSPayments';
 import Employment from '../components/Employment';
 import PPBeneficiary from '../components/PPBeneficiary';
 
-import {PersonModel} from '../models/Models';
+import {PersonModel, EmploymentModel, TrusteeModel, BeneficiaryModel, BenefitsModel, PayerModel, MedicalModel} from '../models/Models';
 import SignatureView from 'react-native-signature-canvas';
 
 export default class FutureScholar_Form extends React.Component{
@@ -43,8 +43,14 @@ export default class FutureScholar_Form extends React.Component{
             surgical: null,
             illness: null
         }
-
-        // this.socket = SocketIOClient('http://localhost:4000')
+        // Models
+        this.personModel = new PersonModel();
+        this.employmentModel = new EmploymentModel();
+        this.trusteeModel = new TrusteeModel();
+        this.beneficiaryModel = new BeneficiaryModel();
+        this.benefitsModel = new BenefitsModel();
+        this.payerModel = new PayerModel();
+        this.medicalModel  = new MedicalModel();
     }
     setNextBirthDay = (dob) => {
         var nextDate = new Date();
@@ -76,10 +82,24 @@ export default class FutureScholar_Form extends React.Component{
         this.setState({
             region: value
         })
-        this.personModel = new PersonModel();
     }
     getModel = (model) => {
 
+    }
+    _holderDetails = {
+        personal : this.personModel,
+        benfits : this.benefitsModel,
+        beneficiary: this.beneficiaryModel,
+        trustee : this.trusteeModel,
+        medical : this.medicalModel,
+        payer : this.payerModel
+    }
+    _submit = () => {
+        this.socket = SocketIOClient('http://localhost:4000');
+
+        if (this.socket.connected){
+            this.socket.emit('submit', this._holderDetails)
+        }
     }
     render(){
         return(
@@ -101,17 +121,23 @@ export default class FutureScholar_Form extends React.Component{
                     <PPBeneficiary />
                     <Trustee />
                     <FSPayments />
-
-                    <SignatureView 
-                        descriptionText='Sign'
-                        clearText='Clear'
-                        confirmText='Save'
-                        webStyle={`.m-signature-pad--footer
-                                    .button {
-                                    background-color: red;
-                                    color: #FFF;
-                                    }`}
-                    />
+                    <View>
+                        <SignatureView 
+                            descriptionText='Sign'
+                            clearText='Clear'
+                            confirmText='Save'
+                            webStyle={`.m-signature-pad--footer
+                                        .button {
+                                        background-color: red;
+                                        color: #FFF;
+                                        }`}
+                        />
+                        <Button
+                            onPress={this._submit}
+                        >
+                            <Text>Submit</Text>
+                        </Button>
+                    </View>
                 </Swiper>
             
             </ImageBackground>
