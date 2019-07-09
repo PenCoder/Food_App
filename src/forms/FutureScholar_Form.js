@@ -121,7 +121,7 @@ export default class FutureScholar_Form extends React.Component{
                     <PPBeneficiary />
                     <Trustee />
                     <FSPayments />
-                    <View>
+                    <Card style={defaultStyles.fullScreen}>
                         <SignatureView 
                             descriptionText='Sign'
                             clearText='Clear'
@@ -137,7 +137,7 @@ export default class FutureScholar_Form extends React.Component{
                         >
                             <Text>Submit</Text>
                         </Button>
-                    </View>
+                    </Card>
                 </Swiper>
             
             </ImageBackground>
