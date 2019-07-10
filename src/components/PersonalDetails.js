@@ -10,6 +10,7 @@ import defaultStyles from '../styles/DefaultStyles';
 import {PersonModel} from '../models/Models';
 
 import nationalities from '../models/data/nationalities';
+import SignatureView from 'react-native-signature-canvas';
 
 export default class PersonalDetails extends Component{
     constructor(props){
@@ -23,8 +24,6 @@ export default class PersonalDetails extends Component{
         }
         this.nationalities = nationalities.nationalities;
         this.personal = this.props.model;
-
-        this.socket = SocketIOClient('http://192.168.8.103:4000')
     }
     // Get the next birthday of client
     setNextBirthDay = (dob) => {
@@ -340,7 +339,7 @@ export default class PersonalDetails extends Component{
                                     </Button>
                                 </CardItem>
                             </Form>
-                        
+                    
                     </ScrollView>
                 </KeyboardAvoidingView>
             </Card>
